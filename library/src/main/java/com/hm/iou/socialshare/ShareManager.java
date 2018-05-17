@@ -2,7 +2,6 @@ package com.hm.iou.socialshare;
 
 import android.content.Context;
 
-import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
 /**
@@ -18,7 +17,10 @@ public class ShareManager {
      */
     public static void init(Context context) {
         //友盟错误分析
-        UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, "");
+
+        //友盟推送也需要初始化，在这里暂时移除掉，在主工程里初始化
+        //UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, "");
+
         //友盟分享
         PlatformConfig.setWeixin("wx54a8a6252c69ea7c", "fbecfb41d780a864653fd03ca1faa550");
         PlatformConfig.setQQZone("1106653157", "830ggCEDlDxI7ZjD");
