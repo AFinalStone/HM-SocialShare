@@ -1,2 +1,12 @@
 <resources>
+    <string name="shareData_shareSuccess">分享成功</string>
+    <string name="shareData_saveSuccess">保存成功</string>
+    <string name="shareData_shareCancel">用户取消分享</string>
+    <string name="shareData_sharePlatform">%S的平台借条,借款金额***,点击查看【借条详情】</string>
+    <string name="shareData_shareMoneyBorrow">%S的电子借条,借款金额***,点击查看【借条详情】</string>
+    <string name="shareData_sharePaperBorrow">%S的纸质借条,借款金额***,点击查看【借条详情】</string>
+    <string name="shareData_sharePaperReceive">%S的纸质收条,借款金额***,点击查看【借条详情】</string>
+    <string name="shareData_shareMsg">由“借条管家”创建的资金借条,符合中国相关《电子合同法》</string>
+    <string name="shareData_seeUrl">,查看链接</string>
+    <string name="shareData_notInstallQQ">当前手机没有安装QQ</string>
 </resources>

@@ -8,10 +8,21 @@
     tools:context="com.hm.iou.socialshare.demo.MainActivity">
 
     <Button
-        android:id="@+id/btn_share_board"
+        android:id="@+id/btn_share_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="弹出分享面板"
-        />
+        android:text="分享文字" />
+
+    <Button
+        android:id="@+id/btn_share_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="分享图片" />
+
+    <Button
+        android:id="@+id/btn_share_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="分享链接" />
 
 </LinearLayout>
