@@ -2,20 +2,20 @@ package com.hm.iou.socialshare.business;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.hm.iou.socialshare.R;
-import com.hm.iou.tools.ClipUtil;
-import com.hm.iou.tools.SystemUtil;
-import com.hm.iou.tools.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -46,22 +46,19 @@ public class UMShareUtil {
         mUMShareListener = new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-                ToastUtil.showMessage(mActivity, "开始分享");
             }
 
             @Override
             public void onResult(SHARE_MEDIA share_media) {
-                ToastUtil.showMessage(mActivity, "分享成功");
             }
 
             @Override
             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                ToastUtil.showMessage(mActivity, "类型" + share_media.name() + "错误" + throwable.getMessage());
+                Toast.makeText(mActivity, throwable.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel(SHARE_MEDIA share_media) {
-                ToastUtil.showMessage(mActivity, "取消分享");
             }
         };
     }
@@ -99,7 +96,7 @@ public class UMShareUtil {
                     UMImage umImage = new UMImage(mActivity, pictureUrl);
                     new ShareAction(mActivity).withMedia(umImage).setPlatform(shareMedia).setCallback(mUMShareListener).share();
                 } else {
-                    ToastUtil.showMessage(mActivity, "权限受阻，无法进行分享");
+                    Toast.makeText(mActivity, "权限受阻，无法进行分享", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -149,7 +146,7 @@ public class UMShareUtil {
                     //分享图片
                     new ShareAction(mActivity).withMedia(web).setPlatform(shareMedia).setCallback(mUMShareListener).share();
                 } else {
-                    ToastUtil.showMessage(mActivity, "权限受阻，无法进行分享");
+                    Toast.makeText(mActivity, "权限受阻，无法进行分享", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -162,7 +159,7 @@ public class UMShareUtil {
      * @param shareText
      */
     public void shareText(SHARE_MEDIA shareMedia, String shareText) {
-        ClipUtil.getInstance(mActivity).putTextIntoClip(shareText);
+        putTextIntoClip(shareText);
         if (SHARE_MEDIA.QQ == shareMedia) {
             //QQ不支持分享文字
             openQQView();
@@ -175,7 +172,7 @@ public class UMShareUtil {
      * 打开QQ
      */
     private void openQQView() {
-        if (SystemUtil.isAppInstalled(mActivity, PACKAGE_NAME_OF_QQ)) {
+        if (isAppInstalled(mActivity, PACKAGE_NAME_OF_QQ)) {
             ComponentName componet = new ComponentName(PACKAGE_NAME_OF_QQ, PACKAGE_NAME_OF_QQ_LACH_ACTIVITY);
             //pkg 就是第三方应用的包名
             //cls 就是第三方应用的进入的第一个Activity
@@ -185,8 +182,36 @@ public class UMShareUtil {
             mActivity.startActivity(intent);
         } else {
             String msg = mActivity.getString(R.string.shareData_notInstallQQ);
-            ToastUtil.showMessage(mActivity, msg);
+            Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
         }
+    }
 
+    /**
+     * 复制文字到剪切板
+     *
+     * @param text
+     */
+    private void putTextIntoClip(String text) {
+        ClipboardManager clipboardManager = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+        //创建ClipData对象
+        ClipData clipData = ClipData.newPlainText("LabelText", text);
+        //添加ClipData对象到剪切板中
+        clipboardManager.setPrimaryClip(clipData);
+    }
+
+    /**
+     * 检测某个应用是否安装
+     *
+     * @param context
+     * @param packageName
+     * @return
+     */
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

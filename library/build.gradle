@@ -28,6 +28,7 @@ android {
     sourceSets.main {
         jniLibs.srcDirs = ['jniLibs']
     }
+
 }
 
 dependencies {
@@ -37,15 +38,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    //rxJava
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
+
     //友盟sdk
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
 
-    //rxJava
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
-
-    compile 'com.heima.iou:hmnetworklocal:1.0.0'
-    compile 'com.heima.iou:hmtoolslocal:1.0.0'
     compile 'com.heima.iou:hmuikitlocal:1.0.0'
 }
 apply from: './maven_local.gradle'

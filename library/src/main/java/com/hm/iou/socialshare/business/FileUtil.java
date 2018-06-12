@@ -2,8 +2,8 @@ package com.hm.iou.socialshare.business;
 
 import android.Manifest;
 import android.app.Activity;
+import android.widget.Toast;
 
-import com.hm.iou.tools.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.functions.Consumer;
@@ -28,7 +28,7 @@ public class FileUtil {
                 if (aBoolean) {
                     //保存图片
                 } else {
-                    ToastUtil.showMessage(activity, "权限受阻，无法进行保存");
+                    Toast.makeText(activity, "权限受阻，无法进行保存", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -1,13 +1,11 @@
 package com.hm.iou.socialshare.business.view;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Display;
@@ -25,14 +23,9 @@ import com.hm.iou.socialshare.bean.PlatFormBean;
 import com.hm.iou.socialshare.business.FileUtil;
 import com.hm.iou.socialshare.business.UMShareUtil;
 import com.hm.iou.socialshare.dict.PlatformEnum;
-import com.hm.iou.tools.ToastUtil;
-import com.hm.iou.uikit.HMGrayDividerItemDecoration;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 
 /**
@@ -120,7 +113,6 @@ public class SharePlatformDialog extends Dialog {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     PlatFormBean platFormBean = (PlatFormBean) adapter.getItem(position);
-                    ToastUtil.showMessage(mActivity, platFormBean.getSharePlatform() + "===" + platFormBean.getUMSharePlatform());
                     //分享文字
                     if (!TextUtils.isEmpty(mText)) {
                         if (PlatformEnum.SAVE != platFormBean.getSharePlatform()) {

@@ -25,4 +25,33 @@
         android:layout_height="wrap_content"
         android:text="分享链接" />
 
+    <Button
+        android:id="@+id/btn_send_msg_qq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="粘贴内容到QQ" />
+
+    <Button
+        android:id="@+id/btn_send_msg_weixin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="粘贴内容到微信" />
+
+    <Button
+        android:id="@+id/btn_send_msg_by_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="通过短信发送文字" />
+
+    <Button
+        android:id="@+id/btn_send_msg_by_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="通过邮箱发送文字" />
+
+    <Button
+        android:id="@+id/btn_send_msg_by_sys"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="通过系统发送文字" />
 </LinearLayout>

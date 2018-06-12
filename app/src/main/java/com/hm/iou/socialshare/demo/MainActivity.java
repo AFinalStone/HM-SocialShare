@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.hm.iou.socialshare.SocialShareAppLike;
+import com.hm.iou.socialshare.SocialShareUtil;
 import com.hm.iou.socialshare.bean.PlatFormBean;
 import com.hm.iou.socialshare.business.view.SharePlatformDialog;
 import com.hm.iou.socialshare.dict.PlatformEnum;
@@ -64,6 +65,38 @@ public class MainActivity extends AppCompatActivity {
                         .setWebUrlDesc("BRVAH官方使用指南（持续更新）")
                         .setPlatforms(listData)
                         .show();
+            }
+        });
+
+        findViewById(R.id.btn_send_msg_qq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialShareUtil.sendMsgToQQ(MainActivity.this, "借条管家");
+            }
+        });
+
+        findViewById(R.id.btn_send_msg_weixin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialShareUtil.sendMsgToWeixin(MainActivity.this, "借条管家");
+            }
+        });
+        findViewById(R.id.btn_send_msg_by_sms).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialShareUtil.sendMsgBySms(MainActivity.this, "借条管家");
+            }
+        });
+        findViewById(R.id.btn_send_msg_by_email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialShareUtil.sendMsgByMail(MainActivity.this, "【主题】", "借条管家");
+            }
+        });
+        findViewById(R.id.btn_send_msg_by_sys).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialShareUtil.sendMsgBySys(MainActivity.this, "【主题】", "借条管家");
             }
         });
     }
