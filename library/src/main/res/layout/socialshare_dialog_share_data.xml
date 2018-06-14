@@ -6,6 +6,17 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享到"
+        android:textColor="#ff222222"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="14dip"
+        android:paddingBottom="9dip"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_platform"
         android:layout_width="match_parent"

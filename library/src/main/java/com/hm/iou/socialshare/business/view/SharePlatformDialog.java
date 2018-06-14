@@ -38,40 +38,79 @@ public class SharePlatformDialog extends Dialog {
         super(context, themeResId);
     }
 
+    /**
+     * 支持三种分享方式：文本分享、图片分享、链接分享<br/>
+     * 如果同时设置了这3种分享的内容，会按照图片、链接、文本的顺序来判断选择哪种分享方式
+     */
     public static class Builder {
 
-        Activity mActivity;
-        String mText;
-        String mPicUrl;
-        String mWebUrl;
-        String mWebUrlTitle;
-        String mWebUrlDesc;
-        List<PlatFormBean> mPlatforms;
+        private Activity mActivity;
+
+        private String mText;               //文本分享
+        private String mPicUrl;             //图片分享
+
+        private String mWebUrl;             //链接分享
+        private String mWebUrlTitle;
+        private String mWebUrlDesc;
+
+        private List<PlatFormBean> mPlatforms;
+
+        private UMShareUtil mShareUtil;
 
         public Builder(Activity activity) {
             this.mActivity = activity;
         }
 
+        /**
+         * 设置纯文本分享的内容，短信、邮箱分享会用到
+         *
+         * @param text
+         * @return
+         */
         public Builder setText(String text) {
             this.mText = text;
             return this;
         }
 
+        /**
+         * 图片分享
+         *
+         * @param picUrl
+         * @return
+         */
         public Builder setPicUrl(String picUrl) {
             this.mPicUrl = picUrl;
             return this;
         }
 
+        /**
+         * 设置分享链接url地址
+         *
+         * @param webUrl
+         * @return
+         */
         public Builder setWebUrl(String webUrl) {
             this.mWebUrl = webUrl;
             return this;
         }
 
+        /**
+         * 设置分享链接标题
+         *
+         * @param webUrlTitle
+         * @return
+         */
         public Builder setWebUrlTitle(String webUrlTitle) {
             this.mWebUrlTitle = webUrlTitle;
             return this;
         }
 
+        /**
+         * 设置分享链接描述
+         *
+         * @param webUrlDesc
+         * @return
+         */
         public Builder setWebUrlDesc(String webUrlDesc) {
             this.mWebUrlDesc = webUrlDesc;
             return this;
@@ -82,14 +121,12 @@ public class SharePlatformDialog extends Dialog {
             return this;
         }
 
-        private SharePlatformDialog CreateDialog() {
+        private SharePlatformDialog createDialog() {
+            mShareUtil = new UMShareUtil(mActivity);
 
-            UMShareUtil.init(mActivity);
-
-            final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitAlertDialogStyle);
-
+            final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitActionSheetDialogStyle);
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
-            View background = view.findViewById(R.id.ll_background);
+            final View container = view.findViewById(R.id.ll_background);
             RecyclerView recyclerView = view.findViewById(R.id.rl_platform);
             view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,6 +134,7 @@ public class SharePlatformDialog extends Dialog {
                     mDialog.dismiss();
                 }
             });
+
             if (TextUtils.isEmpty(mPicUrl)) {
                 int posSave = -1;
                 for (int i = 0; i < mPlatforms.size(); i++) {
@@ -105,7 +143,9 @@ public class SharePlatformDialog extends Dialog {
                         break;
                     }
                 }
-                mPlatforms.remove(posSave);
+                if (posSave != -1) {
+                    mPlatforms.remove(posSave);
+                }
             }
             PlatformItemListAdapter adapter = new PlatformItemListAdapter((ArrayList) mPlatforms);
             adapter.bindToRecyclerView(recyclerView);
@@ -113,55 +153,66 @@ public class SharePlatformDialog extends Dialog {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     PlatFormBean platFormBean = (PlatFormBean) adapter.getItem(position);
-                    //分享文字
-                    if (!TextUtils.isEmpty(mText)) {
-                        if (PlatformEnum.SAVE != platFormBean.getSharePlatform()) {
-                            UMShareUtil.getInstance().shareText(platFormBean.getUMSharePlatform(), mText);
-                        }
-                        return;
-                    }
                     //分享图片
                     if (!TextUtils.isEmpty(mPicUrl)) {
                         if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
                             FileUtil.savePicture(mActivity, mPicUrl);
                         } else {
-                            UMShareUtil.getInstance().sharePicture(platFormBean.getUMSharePlatform(), mPicUrl);
+                            mShareUtil.sharePicture(platFormBean.getUMSharePlatform(), mPicUrl);
                         }
                         return;
                     }
+
                     //分享Web的url
                     if (!TextUtils.isEmpty(mWebUrl)) {
-                        if (PlatformEnum.SAVE != platFormBean.getSharePlatform()) {
-                            UMShareUtil.getInstance().shareWebH5Url(platFormBean.getUMSharePlatform(), mWebUrlTitle, mWebUrlDesc, mWebUrl);
+                        if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
+                            return;
                         }
+                        if (PlatformEnum.SMS == platFormBean.getSharePlatform()
+                                || PlatformEnum.EMAIL == platFormBean.getSharePlatform()) {
+                            //如果是短信分享、邮箱分享，需要特殊处理
+                            String content = mText;
+                            if (TextUtils.isEmpty(content)) {
+                                content = mWebUrlTitle + mWebUrl;
+                            }
+                            mShareUtil.shareText(platFormBean.getUMSharePlatform(), content);
+                            return;
+                        }
+                        mShareUtil.shareWebH5Url(platFormBean.getUMSharePlatform(), mWebUrlTitle, mWebUrlDesc, mWebUrl);
+                        return;
+                    }
+
+                    //分享文字
+                    if (!TextUtils.isEmpty(mText)) {
+                        if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
+                            return;
+                        }
+                        mShareUtil.shareText(platFormBean.getUMSharePlatform(), mText);
+                        return;
                     }
                 }
             });
             recyclerView.setLayoutManager(new GridLayoutManager(mActivity, mPlatforms.size()));
             recyclerView.setAdapter(adapter);
+
             // 定义Dialog布局和参数
-            // 调整dialog背景大小
             Window dialogWindow = mDialog.getWindow();
             dialogWindow.setGravity(Gravity.LEFT | Gravity.BOTTOM);
             mDialog.setContentView(view);
 
             // 调整dialog背景大小
-            WindowManager windowManager = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
-            Display display = windowManager.getDefaultDisplay();
-            background.setLayoutParams(new FrameLayout.LayoutParams(display.getWidth(), LinearLayout.LayoutParams.WRAP_CONTENT));
+            int width = mActivity.getResources().getDisplayMetrics().widthPixels;
+            container.setLayoutParams(new FrameLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
 
             return mDialog;
         }
 
-        public void show() {
-            CreateDialog().show();
+        public SharePlatformDialog show() {
+            SharePlatformDialog dialog = createDialog();
+            dialog.show();
+            return dialog;
         }
 
     }
-
-    public class PlatformEnmu {
-
-    }
-
 
 }
