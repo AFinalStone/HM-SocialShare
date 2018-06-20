@@ -8,12 +8,10 @@ import android.support.annotation.StyleRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -124,7 +122,7 @@ public class SharePlatformDialog extends Dialog {
         private SharePlatformDialog createDialog() {
             mShareUtil = new UMShareUtil(mActivity);
 
-            final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitActionSheetDialogStyle);
+            final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitAlertDialogStyle_FromBottom);
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
             final View container = view.findViewById(R.id.ll_background);
             RecyclerView recyclerView = view.findViewById(R.id.rl_platform);
