@@ -47,5 +47,7 @@ dependencies {
     compile 'com.umeng.sdk:analytics:latest.integration'
 
     compile 'com.heima.iou:hmuikitlocal:1.0.0'
+    compile 'com.heima.iou:hmnetworklocal:1.0.0'
+    compile 'com.heima.iou:hmsharedatalocal:1.0.0'
 }
 apply from: './maven_local.gradle'

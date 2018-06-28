@@ -14,9 +14,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.socialshare.R;
+import com.hm.iou.socialshare.api.ShareApi;
 import com.hm.iou.socialshare.bean.PlatFormBean;
 import com.hm.iou.socialshare.business.FileUtil;
 import com.hm.iou.socialshare.business.UMShareUtil;
@@ -24,6 +27,8 @@ import com.hm.iou.socialshare.dict.PlatformEnum;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -54,6 +59,9 @@ public class SharePlatformDialog extends Dialog {
         private List<PlatFormBean> mPlatforms;
 
         private UMShareUtil mShareUtil;
+
+        private String mIouId;
+        private int mIouKind;
 
         public Builder(Activity activity) {
             this.mActivity = activity;
@@ -119,6 +127,12 @@ public class SharePlatformDialog extends Dialog {
             return this;
         }
 
+        public Builder setShareData(String iouId, int iouKind) {
+            mIouId = iouId;
+            mIouKind = iouKind;
+            return this;
+        }
+
         private SharePlatformDialog createDialog() {
             mShareUtil = new UMShareUtil(mActivity);
 
@@ -151,6 +165,36 @@ public class SharePlatformDialog extends Dialog {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     PlatFormBean platFormBean = (PlatFormBean) adapter.getItem(position);
+                    int platformType = 0;
+                    if (platFormBean.getSharePlatform() == PlatformEnum.WEIXIN) {
+                        platformType = 1;
+                    } else if (platFormBean.getSharePlatform() == PlatformEnum.WEIXIN_CIRCLE) {
+                        platformType = 2;
+                    } else if (platFormBean.getSharePlatform() == PlatformEnum.QQ) {
+                        platformType = 6;
+                    } else if (platFormBean.getSharePlatform() == PlatformEnum.WEIBO) {
+                        platformType = 3;
+                    } else if (platFormBean.getSharePlatform() == PlatformEnum.EMAIL) {
+                        platformType = 5;
+                    } else if (platFormBean.getSharePlatform() == PlatformEnum.SMS) {
+                        platformType = 4;
+                    }
+                    if (platformType > 0 && !TextUtils.isEmpty(mIouId)) {
+                        //统计分享
+                        ShareApi.addStatisticShare(mIouId, mIouKind, platformType)
+                                .subscribe(new Consumer<BaseResponse<Object>>() {
+                                    @Override
+                                    public void accept(BaseResponse<Object> objectBaseResponse) throws Exception {
+
+                                    }
+                                }, new Consumer<Throwable>() {
+                                    @Override
+                                    public void accept(Throwable throwable) throws Exception {
+
+                                    }
+                                });
+                    }
+
                     //分享图片
                     if (!TextUtils.isEmpty(mPicUrl)) {
                         if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
