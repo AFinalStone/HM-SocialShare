@@ -1,6 +1,9 @@
 package com.hm.iou.socialshare;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import com.umeng.socialize.PlatformConfig;
 
@@ -36,10 +39,20 @@ public class SocialShareAppLike {
         //友盟推送也需要初始化，在这里暂时移除掉，在主工程里初始化
         //UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, "");
 
-        //友盟分享
-        PlatformConfig.setWeixin("wx54a8a6252c69ea7c", "fbecfb41d780a864653fd03ca1faa550");
-        PlatformConfig.setQQZone("1106653157", "830ggCEDlDxI7ZjD");
-        PlatformConfig.setSinaWeibo("22876744", "fbecfb41d780a864653fd03ca1faa550", "http://www.baidu.com");
+        PlatformConfig.setWeixin(getMetaData(context, "WEIXIN_ID"), getMetaData(context, "WEIXIN_SECRET"));
+        PlatformConfig.setQQZone(getMetaData(context, "TENCENT_QQ_ID"), getMetaData(context, "TENCENT_QQ_SECRET"));
+        PlatformConfig.setSinaWeibo(getMetaData(context, "WEIBO_ID"), getMetaData(context, "WEIBO_SECRET"), getMetaData(context, "WEIBO_CALLBACK_URL"));
+    }
+
+    private String getMetaData(Context context, String key) {
+        try {
+            ApplicationInfo info = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return info.metaData.getString(key);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
