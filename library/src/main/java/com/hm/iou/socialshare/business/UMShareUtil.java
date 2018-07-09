@@ -176,6 +176,7 @@ public class UMShareUtil {
             }
         } else if (shareMedia == SHARE_MEDIA.QQ) {
             if (!SocialShareUtil.isAppInstalled(context, SocialShareUtil.PACKAGE_OF_QQ)) {
+                SocialShareUtil.toastMsg(context, "您还未安装QQ客户端");
                 return false;
             }
         }
