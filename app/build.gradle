@@ -11,14 +11,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [UMENG_APPKEY: "5aa0ef0ef43e4812330002e3", CHANNEL_TYPE: "android",
-                                WEIXIN_ID: "wx54a8a6252c69ea7c",
-                                WEIXIN_SECRET: "fbecfb41d780a864653fd03ca1faa550",
-                                TENCENT_QQ_ID: "1106653157",
-                                TENCENT_QQ_SECRET: "830ggCEDlDxI7ZjD",
-                                WEIBO_ID: "22876744",
-                                WEIBO_SECRET: "fbecfb41d780a864653fd03ca1faa550",
-                                WEIBO_CALLBACK_URL: "http://www.baidu.com"
-        ]
+                                WEIXIN_ID: "wx54a8a6252c69ea7c", WEIXIN_SECRET: "fbecfb41d780a864653fd03ca1faa550", TENCENT_QQ_ID: "1106653157", TENCENT_QQ_SECRET: "830ggCEDlDxI7ZjD", WEIBO_ID: "22876744", WEIBO_SECRET: "fbecfb41d780a864653fd03ca1faa550", WEIBO_CALLBACK_URL: "http://www.baidu.com"]
     }
 
     signingConfigs {
@@ -48,5 +41,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    compile project(':library')
+//    compile project(':library')
+    compile 'com.heima.iou:hmsocialsharelocal:1.0.0'
 }

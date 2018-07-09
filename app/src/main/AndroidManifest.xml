@@ -11,6 +11,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 微信 -->
+        <meta-data
+            android:name="WEIXIN_ID"
+            android:value="${WEIXIN_ID}" />
+        <meta-data
+            android:name="WEIXIN_SECRET"
+            android:value="${WEIXIN_SECRET}" />
+
+        <!-- QQ -->
+        <meta-data
+            android:name="TENCENT_QQ_ID"
+            android:value="${TENCENT_QQ_ID}" />
+
+        <meta-data
+            android:name="TENCENT_QQ_SECRET"
+            android:value="${TENCENT_QQ_SECRET}" />
+
+        <!-- 微博 -->
+        <meta-data
+            android:name="WEIBO_ID"
+            android:value="${WEIBO_ID}" />
+
+        <meta-data
+            android:name="WEIBO_SECRET"
+            android:value="${WEIBO_SECRET}" />
+
+        <meta-data android:name="WEIBO_CALLBACK_URL"
+            android:value="${WEIBO_CALLBACK_URL}" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
