@@ -4,37 +4,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <!--友盟-->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}" />
-
-        <!-- 微信 -->
-        <meta-data
-            android:name="WEIXIN_ID"
-            android:value="${WEIXIN_ID}" />
-        <meta-data
-            android:name="WEIXIN_SECRET"
-            android:value="${WEIXIN_SECRET}" />
-
-        <!-- QQ -->
-        <meta-data
-            android:name="TENCENT_QQ_ID"
-            android:value="${TENCENT_QQ_ID}" />
-        <meta-data
-            android:name="TENCENT_QQ_SECRET"
-            android:value="${TENCENT_QQ_SECRET}" />
-
-        <!-- 微博 -->
-        <meta-data
-            android:name="WEIBO_ID"
-            android:value="${WEIBO_ID}" />
-        <meta-data
-            android:name="WEIBO_SECRET"
-            android:value="${WEIBO_SECRET}" />
-        <meta-data
-            android:name="WEIBO_CALLBACK_URL"
-            android:value="${WEIBO_CALLBACK_URL}" />
 
         <!--QQ-->
         <activity
