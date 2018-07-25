@@ -37,8 +37,20 @@ import io.reactivex.functions.Consumer;
  */
 public class SharePlatformDialog extends Dialog {
 
+    private UMShareUtil mUmShareUtil;
+
     private SharePlatformDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, themeResId);
+    }
+
+    /**
+     * 释放资源
+     */
+    public void onDestroy() {
+         if (mUmShareUtil != null) {
+             mUmShareUtil.onDestroy();
+             mUmShareUtil = null;
+         }
     }
 
     /**
@@ -246,6 +258,7 @@ public class SharePlatformDialog extends Dialog {
             int width = mActivity.getResources().getDisplayMetrics().widthPixels;
             container.setLayoutParams(new FrameLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+            mDialog.mUmShareUtil = mShareUtil;
             return mDialog;
         }
 

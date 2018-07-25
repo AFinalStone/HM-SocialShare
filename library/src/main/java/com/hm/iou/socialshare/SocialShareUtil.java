@@ -24,6 +24,7 @@ import com.umeng.socialize.weixin.net.WXAuthUtils;
  */
 public class SocialShareUtil {
 
+    public static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
     public static final String PACKAGE_OF_QQ = "com.tencent.mobileqq";
     public static final String ACTIVITY_OF_QQ = "com.tencent.mobileqq.activity.SplashActivity";
 
@@ -42,12 +43,16 @@ public class SocialShareUtil {
         IWXAPI wxapi = WXAPIFactory.createWXAPI(context, platform.appId);
         if (!wxapi.isWXAppInstalled()) {
             toastMsg(context, "您还未安装微信客户端");
+            //放置微信内存泄漏
+            wxapi.detach();
             return;
         }
 
         //拷贝到剪切板
         putTextIntoClip(context, textMsg);
         wxapi.openWXApp();
+        //放置微信内存泄漏
+        wxapi.detach();
     }
 
 

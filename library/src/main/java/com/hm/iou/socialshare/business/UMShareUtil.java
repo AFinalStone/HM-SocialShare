@@ -10,14 +10,13 @@ import android.widget.Toast;
 
 import com.hm.iou.socialshare.SocialShareUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.utils.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,10 +31,12 @@ import io.reactivex.functions.Consumer;
 public class UMShareUtil {
 
     private Activity mActivity;
+    private Context mApplicationContext;
     private UMShareListener mUMShareListener;
 
     public UMShareUtil(Activity activity) {
         mActivity = activity;
+        mApplicationContext = mActivity.getApplicationContext();
         mUMShareListener = new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
@@ -48,7 +49,7 @@ public class UMShareUtil {
 
             @Override
             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                Toast.makeText(mActivity, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("分享出错：\n" + throwable.getMessage());
             }
 
             @Override
@@ -58,6 +59,14 @@ public class UMShareUtil {
         };
     }
 
+    public void onDestroy() {
+        if (mApplicationContext != null) {
+            UMShareAPI.get(mApplicationContext).release();
+        }
+        mActivity = null;
+        mUMShareListener = null;
+    }
+
     /**
      * 分享图片
      *
@@ -65,7 +74,9 @@ public class UMShareUtil {
      * @param pictureUrl
      */
     public void sharePicture(final SHARE_MEDIA shareMedia, final String pictureUrl) {
-        if (!checkShareChannel(mActivity, shareMedia)) {
+        if (mActivity == null)
+            return;
+        if (!checkShareChannel(mApplicationContext, shareMedia)) {
             return;
         }
 
@@ -76,7 +87,7 @@ public class UMShareUtil {
                 @Override
                 public void accept(Boolean aBoolean) throws Exception {
                     if (aBoolean) {
-                        UMImage umImage = new UMImage(mActivity, pictureUrl);
+                        UMImage umImage = new UMImage(mApplicationContext, pictureUrl);
                         new ShareAction(mActivity).withMedia(umImage).setPlatform(shareMedia).setCallback(mUMShareListener).share();
                     } else {
                         Toast.makeText(mActivity, "分享失败，请开启读写手机存储权限", Toast.LENGTH_SHORT).show();
@@ -86,7 +97,7 @@ public class UMShareUtil {
             return;
         }
 
-        UMImage umImage = new UMImage(mActivity, pictureUrl);
+        UMImage umImage = new UMImage(mApplicationContext, pictureUrl);
         new ShareAction(mActivity).withMedia(umImage).setPlatform(shareMedia).setCallback(mUMShareListener).share();
     }
 
@@ -116,11 +127,13 @@ public class UMShareUtil {
      * @param webUrl     链接地址
      */
     public void shareWebH5Url(final SHARE_MEDIA shareMedia, String urlTitle, String urlDesc, String webUrl) {
-        if (!checkShareChannel(mActivity, shareMedia)) {
+        if (mActivity == null)
+            return;
+        if (!checkShareChannel(mApplicationContext, shareMedia)) {
             return;
         }
 
-        UMImage thumb = new UMImage(mActivity, getAppLogo());
+        UMImage thumb = new UMImage(mApplicationContext, getAppLogo());
         final UMWeb web = new UMWeb(webUrl);
         web.setThumb(thumb);
         if (!TextUtils.isEmpty(urlTitle)) {
@@ -154,7 +167,9 @@ public class UMShareUtil {
      * @param shareText  分享内容
      */
     public void shareText(SHARE_MEDIA shareMedia, String shareText) {
-        if (!checkShareChannel(mActivity, shareMedia)) {
+        if (mActivity == null)
+            return;
+        if (!checkShareChannel(mApplicationContext, shareMedia)) {
             return;
         }
 
@@ -168,9 +183,7 @@ public class UMShareUtil {
 
     private boolean checkShareChannel(Context context, SHARE_MEDIA shareMedia) {
         if (shareMedia == SHARE_MEDIA.WEIXIN || shareMedia == SHARE_MEDIA.WEIXIN_CIRCLE) {
-            PlatformConfig.APPIDPlatform platform = (PlatformConfig.APPIDPlatform) PlatformConfig.getPlatform(SHARE_MEDIA.WEIXIN);
-            IWXAPI wxapi = WXAPIFactory.createWXAPI(context, platform.appId);
-            if (!wxapi.isWXAppInstalled()) {
+            if (!SocialShareUtil.isAppInstalled(context, SocialShareUtil.PACKAGE_NAME_OF_WX_CHAT)) {
                 SocialShareUtil.toastMsg(context, "您还未安装微信客户端");
                 return false;
             }
