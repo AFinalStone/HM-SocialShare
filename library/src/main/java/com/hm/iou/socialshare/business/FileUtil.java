@@ -3,6 +3,8 @@ package com.hm.iou.socialshare.business;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,15 +52,24 @@ public class FileUtil {
     }
 
     private static void downloadPic(final Context context, final String url) {
+        toastResultShort(context, "开始保存图片，请稍候...");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     InputStream is = getImageStream(url);
                     if (is != null) {
-                        File dir = Environment.getExternalStorageDirectory();
+                        File dir = new File(Environment.getExternalStorageDirectory(), "54jietiao" + File.separator + "image");
+                        if (!dir.exists()) {
+                            dir.mkdirs();
+                        }
                         File file = new File(dir, System.currentTimeMillis() + ".jpg");
                         saveInputStreamToFile(is, file);
+
+                        //通知扫描存储卡设备
+                        Uri uri = Uri.fromFile(file);
+                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+
                         toastResult(context, "图片保存路径为" + file.getAbsolutePath());
                         return;
                     }
@@ -79,6 +90,15 @@ public class FileUtil {
         });
     }
 
+    private static void toastResultShort(final Context context, final String msg) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private static InputStream getImageStream(String path) throws Exception {
         URL url = new URL(path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -91,7 +111,7 @@ public class FileUtil {
         return null;
     }
 
-    private static void saveInputStreamToFile(InputStream is, File file) {
+    private static boolean saveInputStreamToFile(InputStream is, File file) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -100,6 +120,7 @@ public class FileUtil {
             while ((len = is.read(buffer)) != -1) {
                 fos.write(buffer, 0, len);
             }
+            return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -114,6 +135,7 @@ public class FileUtil {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
 }
