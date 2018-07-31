@@ -3,6 +3,8 @@ package com.hm.iou.socialshare.business.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.GridLayoutManager;
@@ -62,7 +64,9 @@ public class SharePlatformDialog extends Dialog {
         private Activity mActivity;
 
         private String mText;               //文本分享
+
         private String mPicUrl;             //图片分享
+        private Bitmap mBitmap;             //图片分享
 
         private String mWebUrl;             //链接分享
         private String mWebUrlTitle;
@@ -91,13 +95,24 @@ public class SharePlatformDialog extends Dialog {
         }
 
         /**
-         * 图片分享
+         * 图片分享，可以选择设置图片的url，或者是Bitmap
          *
          * @param picUrl
          * @return
          */
         public Builder setPicUrl(String picUrl) {
             this.mPicUrl = picUrl;
+            return this;
+        }
+
+        /**
+         * 图片分享，可以选择设置图片的url，或者是Bitmap
+         *
+         * @param bitmap 要分享的图片
+         * @return
+         */
+        public Builder setBitmap(Bitmap bitmap) {
+            this.mBitmap = bitmap;
             return this;
         }
 
@@ -213,6 +228,16 @@ public class SharePlatformDialog extends Dialog {
                             FileUtil.savePicture(mActivity, mPicUrl);
                         } else {
                             mShareUtil.sharePicture(platFormBean.getUMSharePlatform(), mPicUrl);
+                        }
+                        return;
+                    }
+
+                    //直接分享图片
+                    if (mBitmap != null) {
+                        if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
+                            FileUtil.savePicture(mActivity, mBitmap);
+                        } else {
+                            mShareUtil.sharePicture(platFormBean.getUMSharePlatform(), mBitmap);
                         }
                         return;
                     }
