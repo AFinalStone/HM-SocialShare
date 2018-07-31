@@ -34,7 +34,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //rxJava
@@ -48,5 +47,6 @@ dependencies {
     compile 'com.heima.iou:hmuikitlocal:1.0.0'
     compile 'com.heima.iou:hmnetworklocal:1.0.0'
     compile 'com.heima.iou:hmsharedatalocal:1.0.0'
+    compile 'com.heima.iou:hmtoolslocal:1.0.0'
 }
 apply from: './maven_local.gradle'
