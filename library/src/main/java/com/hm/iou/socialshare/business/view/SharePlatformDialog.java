@@ -174,7 +174,7 @@ public class SharePlatformDialog extends Dialog {
                 }
             });
 
-            if (TextUtils.isEmpty(mPicUrl)) {
+            if (TextUtils.isEmpty(mPicUrl) && mBitmap == null) {
                 int posSave = -1;
                 for (int i = 0; i < mPlatforms.size(); i++) {
                     if (mPlatforms.get(i).getSharePlatform() == PlatformEnum.SAVE) {
