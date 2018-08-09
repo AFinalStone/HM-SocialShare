@@ -26,6 +26,7 @@ import com.hm.iou.socialshare.bean.PlatFormBean;
 import com.hm.iou.socialshare.business.FileUtil;
 import com.hm.iou.socialshare.business.UMShareUtil;
 import com.hm.iou.socialshare.dict.PlatformEnum;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +50,10 @@ public class SharePlatformDialog extends Dialog {
      * 释放资源
      */
     public void onDestroy() {
-         if (mUmShareUtil != null) {
-             mUmShareUtil.onDestroy();
-             mUmShareUtil = null;
-         }
+        if (mUmShareUtil != null) {
+            mUmShareUtil.onDestroy();
+            mUmShareUtil = null;
+        }
     }
 
     /**
@@ -78,6 +79,7 @@ public class SharePlatformDialog extends Dialog {
 
         private String mIouId;
         private int mIouKind;
+        private String mTraceType;
 
         public Builder(Activity activity) {
             this.mActivity = activity;
@@ -91,6 +93,16 @@ public class SharePlatformDialog extends Dialog {
          */
         public Builder setText(String text) {
             this.mText = text;
+            return this;
+        }
+
+        /**
+         * 设置埋点的类型来源
+         *
+         * @param traceType
+         */
+        public Builder setTraceType(String traceType) {
+            this.mTraceType = traceType;
             return this;
         }
 
@@ -171,6 +183,9 @@ public class SharePlatformDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     mDialog.dismiss();
+                    if (!TextUtils.isEmpty(mTraceType)) {
+                        MobclickAgent.onEvent(mActivity, mTraceType + "_cancel_click");
+                    }
                 }
             });
 
@@ -194,16 +209,34 @@ public class SharePlatformDialog extends Dialog {
                     PlatFormBean platFormBean = (PlatFormBean) adapter.getItem(position);
                     int platformType = 0;
                     if (platFormBean.getSharePlatform() == PlatformEnum.WEIXIN) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_wx_click");
+                        }
                         platformType = 1;
                     } else if (platFormBean.getSharePlatform() == PlatformEnum.WEIXIN_CIRCLE) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_wxcircle_click");
+                        }
                         platformType = 2;
                     } else if (platFormBean.getSharePlatform() == PlatformEnum.QQ) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_qq_click");
+                        }
                         platformType = 6;
                     } else if (platFormBean.getSharePlatform() == PlatformEnum.WEIBO) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_weibo_click");
+                        }
                         platformType = 3;
                     } else if (platFormBean.getSharePlatform() == PlatformEnum.EMAIL) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_email_clcik");
+                        }
                         platformType = 5;
                     } else if (platFormBean.getSharePlatform() == PlatformEnum.SMS) {
+                        if (!TextUtils.isEmpty(mTraceType)) {
+                            MobclickAgent.onEvent(mActivity, mTraceType + "_sms_clcik");
+                        }
                         platformType = 4;
                     }
                     if (platformType > 0 && !TextUtils.isEmpty(mIouId)) {
@@ -225,6 +258,9 @@ public class SharePlatformDialog extends Dialog {
                     //分享图片
                     if (!TextUtils.isEmpty(mPicUrl)) {
                         if (PlatformEnum.SAVE == platFormBean.getSharePlatform()) {
+                            if (!TextUtils.isEmpty(mTraceType)) {
+                                MobclickAgent.onEvent(mActivity, mTraceType + "_save_click");
+                            }
                             FileUtil.savePicture(mActivity, mPicUrl);
                         } else {
                             mShareUtil.sharePicture(platFormBean.getUMSharePlatform(), mPicUrl);
