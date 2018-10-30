@@ -36,10 +36,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    //rxJava
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
-
     //友盟sdk
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
@@ -48,5 +44,8 @@ dependencies {
     compile 'com.heima.iou:hmnetworklocal:1.0.0'
     compile 'com.heima.iou:hmsharedatalocal:1.0.0'
     compile 'com.heima.iou:hmtoolslocal:1.0.0'
+
+    compile 'com.heima.iou:hmrxpermissionlocal:1.0.0'
+
 }
 apply from: './maven_local.gradle'
