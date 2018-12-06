@@ -46,26 +46,6 @@ public class UMShareUtil {
     public UMShareUtil(Activity activity) {
         mActivity = activity;
         mApplicationContext = mActivity.getApplicationContext();
-        mUMShareListener = new UMShareListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-            }
-
-            @Override
-            public void onResult(SHARE_MEDIA share_media) {
-
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                Log.e("分享出错：\n" + throwable.getMessage());
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media) {
-
-            }
-        };
     }
 
     public void onDestroy() {
@@ -74,6 +54,10 @@ public class UMShareUtil {
         }
         mActivity = null;
         mUMShareListener = null;
+    }
+
+    public void setShareListener(UMShareListener listener) {
+        mUMShareListener = listener;
     }
 
     /**

@@ -27,6 +27,7 @@ import com.hm.iou.socialshare.business.FileUtil;
 import com.hm.iou.socialshare.business.UMShareUtil;
 import com.hm.iou.socialshare.dict.PlatformEnum;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMShareListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,8 +82,15 @@ public class SharePlatformDialog extends Dialog {
         private int mIouKind;
         private String mTraceType;
 
+        private UMShareListener mShareListener;
+
         public Builder(Activity activity) {
             this.mActivity = activity;
+        }
+
+        public Builder setShareListener(UMShareListener listener) {
+            this.mShareListener = listener;
+            return this;
         }
 
         /**
@@ -174,6 +182,7 @@ public class SharePlatformDialog extends Dialog {
 
         private SharePlatformDialog createDialog() {
             mShareUtil = new UMShareUtil(mActivity);
+            mShareUtil.setShareListener(mShareListener);
 
             final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitAlertDialogStyle_FromBottom);
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
