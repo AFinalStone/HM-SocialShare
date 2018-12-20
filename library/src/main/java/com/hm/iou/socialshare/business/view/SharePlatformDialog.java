@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -73,6 +71,7 @@ public class SharePlatformDialog extends Dialog {
         private String mWebUrl;             //链接分享
         private String mWebUrlTitle;
         private String mWebUrlDesc;
+        private Bitmap mWebUrlBitmap;        //H5的缩略图片
 
         private List<PlatFormBean> mPlatforms;
 
@@ -166,6 +165,17 @@ public class SharePlatformDialog extends Dialog {
          */
         public Builder setWebUrlDesc(String webUrlDesc) {
             this.mWebUrlDesc = webUrlDesc;
+            return this;
+        }
+
+        /**
+         * 设置分享链接的缩略图
+         *
+         * @param webUrlBitmap
+         * @return
+         */
+        public Builder setWebUrlBitmap(Bitmap webUrlBitmap) {
+            this.mWebUrlBitmap = webUrlBitmap;
             return this;
         }
 
@@ -302,7 +312,7 @@ public class SharePlatformDialog extends Dialog {
                             mShareUtil.shareText(platFormBean.getUMSharePlatform(), content);
                             return;
                         }
-                        mShareUtil.shareWebH5Url(platFormBean.getUMSharePlatform(), mWebUrlTitle, mWebUrlDesc, mWebUrl);
+                        mShareUtil.shareWebH5Url(platFormBean.getUMSharePlatform(), mWebUrlTitle, mWebUrlDesc, mWebUrl, mWebUrlBitmap);
                         return;
                     }
 

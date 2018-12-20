@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.hm.iou.socialshare.SocialShareUtil;
-import com.hm.iou.tools.ImageLoader;
-import com.hm.iou.tools.ToastUtil;
 import com.hm.iou.uikit.loading.LoadingDialogUtil;
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -21,7 +19,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
-import com.umeng.socialize.utils.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -182,15 +179,18 @@ public class UMShareUtil {
      * @param urlTitle   标题
      * @param urlDesc    描述
      * @param webUrl     链接地址
+     * @param bitmap     图片
      */
-    public void shareWebH5Url(final SHARE_MEDIA shareMedia, String urlTitle, String urlDesc, String webUrl) {
+    public void shareWebH5Url(final SHARE_MEDIA shareMedia, String urlTitle, String urlDesc, String webUrl, Bitmap bitmap) {
         if (mActivity == null)
             return;
         if (!checkShareChannel(mApplicationContext, shareMedia)) {
             return;
         }
-
-        UMImage thumb = new UMImage(mApplicationContext, getAppLogo());
+        if (bitmap == null) {
+            bitmap = getAppLogo();
+        }
+        UMImage thumb = new UMImage(mApplicationContext, bitmap);
         final UMWeb web = new UMWeb(webUrl);
         web.setThumb(thumb);
         if (!TextUtils.isEmpty(urlTitle)) {
