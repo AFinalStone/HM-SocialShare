@@ -9,13 +9,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.widget.Toast;
 
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.tencent.tauth.Tencent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.weixin.net.WXAuthUtils;
 
 /**
  * @author : syl
@@ -26,6 +23,7 @@ public class SocialShareUtil {
 
     public static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
     public static final String PACKAGE_OF_QQ = "com.tencent.mobileqq";
+    public static final String PACKAGE_OF_WEIBO = "com.sina.weibo";
     public static final String ACTIVITY_OF_QQ = "com.tencent.mobileqq.activity.SplashActivity";
 
     public static void toastMsg(Context context, String msg) {

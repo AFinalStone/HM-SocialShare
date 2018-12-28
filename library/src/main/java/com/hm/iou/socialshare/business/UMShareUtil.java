@@ -249,6 +249,11 @@ public class UMShareUtil {
                 SocialShareUtil.toastMsg(context, "您还未安装QQ客户端");
                 return false;
             }
+        } else if (shareMedia == SHARE_MEDIA.SINA) {
+            if (!SocialShareUtil.isAppInstalled(context, SocialShareUtil.PACKAGE_OF_WEIBO)) {
+                SocialShareUtil.toastMsg(context, "您还未安装微博客户端");
+                return false;
+            }
         }
         return true;
     }
