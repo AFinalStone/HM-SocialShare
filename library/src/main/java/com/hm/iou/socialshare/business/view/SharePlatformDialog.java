@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -63,6 +64,8 @@ public class SharePlatformDialog extends Dialog {
 
         private Activity mActivity;
 
+        private String mDialogTitle;
+
         private String mText;               //文本分享
 
         private String mPicUrl;             //图片分享
@@ -89,6 +92,11 @@ public class SharePlatformDialog extends Dialog {
 
         public Builder setShareListener(UMShareListener listener) {
             this.mShareListener = listener;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            mDialogTitle = title;
             return this;
         }
 
@@ -196,17 +204,12 @@ public class SharePlatformDialog extends Dialog {
 
             final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitAlertDialogStyle_FromBottom);
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
+            final TextView tvTitle= view.findViewById(R.id.tv_dialog_title);
+            if (!TextUtils.isEmpty(mDialogTitle)) {
+                tvTitle.setText(mDialogTitle);
+            }
             final View container = view.findViewById(R.id.ll_background);
             RecyclerView recyclerView = view.findViewById(R.id.rl_platform);
-            view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                    if (!TextUtils.isEmpty(mTraceType)) {
-                        MobclickAgent.onEvent(mActivity, mTraceType + "_cancel_click");
-                    }
-                }
-            });
 
             if (TextUtils.isEmpty(mPicUrl) && mBitmap == null) {
                 int posSave = -1;

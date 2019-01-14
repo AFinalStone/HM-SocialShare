@@ -7,31 +7,23 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="分享到"
-        android:textColor="#ff222222"
-        android:textSize="14sp"
+        android:textColor="@color/uikit_text_main_content"
+        android:textSize="@dimen/uikit_sub_title_text_size"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="14dip"
-        android:paddingBottom="9dip"
+        android:paddingTop="15dip"
+        android:paddingBottom="20dip"
         />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_platform"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View style="@style/UikitDivider.Horizontal" />
-
-    <TextView
-        android:id="@+id/tv_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:background="@drawable/uikit_bg_item_ripple"
-        android:gravity="center"
-        android:text="取消"
-        android:textColor="#ff222222"
-        android:textSize="@dimen/textFontSize_16" />
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:paddingBottom="55dip"
+        />
 
 </LinearLayout>

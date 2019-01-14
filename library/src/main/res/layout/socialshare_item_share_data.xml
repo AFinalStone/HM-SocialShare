@@ -11,14 +11,16 @@
     <ImageView
         android:id="@+id/iv_platForm"
         android:layout_width="45dp"
-        android:layout_height="45dp" />
+        android:layout_height="45dp"
+        android:scaleType="centerInside"
+        />
 
     <TextView
         android:id="@+id/tv_platForm"
         android:layout_width="wrap_content"
-        android:layout_height="17dp"
-        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="保存"
-        android:textColor="#ff666666"
+        android:textColor="@color/uikit_text_auxiliary"
         android:textSize="@dimen/textFontSize_12" />
 </LinearLayout>

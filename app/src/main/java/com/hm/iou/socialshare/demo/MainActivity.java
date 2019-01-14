@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 listData.add(new PlatFormBean(PlatformEnum.SMS));
                 new SharePlatformDialog
                         .Builder(MainActivity.this)
+                        .setTitle("通过以下入口邀请签署")
                         .setText("借条管家")
                         .setPlatforms(listData)
                         .show();

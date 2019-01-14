@@ -26,19 +26,19 @@ public class PlatFormBean implements IPlatformItem {
     public int getPlatformIcon() {
         int icon = 0;
         if (PlatformEnum.QQ == sharePlatform) {
-            icon = R.mipmap.icon_share_qq;
+            icon = R.mipmap.uikit_ic_qq;
         } else if (PlatformEnum.EMAIL == sharePlatform) {
-            icon = R.mipmap.icon_share_email;
+            icon = R.mipmap.uikit_ic_email;
         } else if (PlatformEnum.SMS == sharePlatform) {
-            icon = R.mipmap.icon_share_sms;
+            icon = R.mipmap.uikit_ic_sms;
         } else if (PlatformEnum.SAVE == sharePlatform) {
-            icon = R.mipmap.icon_share_save;
+            icon = R.mipmap.uikit_ic_save;
         } else if (PlatformEnum.WEIBO == sharePlatform) {
-            icon = R.mipmap.icon_share_weibo;
+            icon = R.mipmap.uikit_ic_weibo;
         } else if (PlatformEnum.WEIXIN == sharePlatform) {
-            icon = R.mipmap.icon_share_weixin;
+            icon = R.mipmap.uikit_ic_weixin;
         } else if (PlatformEnum.WEIXIN_CIRCLE == sharePlatform) {
-            icon = R.mipmap.icon_share_weixin_circle;
+            icon = R.mipmap.uikit_ic_circle;
         }
         return icon;
     }
