@@ -12,8 +12,10 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.hm.iou.socialshare.bean.PlatFormBean;
 import com.hm.iou.socialshare.business.FileUtil;
 import com.hm.iou.socialshare.business.UMShareUtil;
 import com.hm.iou.socialshare.dict.PlatformEnum;
+import com.hm.iou.tools.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareListener;
 
@@ -70,6 +73,7 @@ public class SharePlatformDialog extends Dialog {
 
         private String mPicUrl;             //图片分享
         private Bitmap mBitmap;             //图片分享
+        private boolean mShowImg;           //是否显示图片预览
 
         private String mWebUrl;             //链接分享
         private String mWebUrlTitle;
@@ -143,6 +147,11 @@ public class SharePlatformDialog extends Dialog {
             return this;
         }
 
+        public Builder setShowImage(boolean show) {
+            this.mShowImg = show;
+            return this;
+        }
+
         /**
          * 设置分享链接url地址
          *
@@ -204,6 +213,8 @@ public class SharePlatformDialog extends Dialog {
 
             final SharePlatformDialog mDialog = new SharePlatformDialog(mActivity, R.style.UikitAlertDialogStyle_FromBottom);
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
+            ImageView ivImagePreview = view.findViewById(R.id.iv_dialog_preview);
+
             final TextView tvTitle= view.findViewById(R.id.tv_dialog_title);
             if (!TextUtils.isEmpty(mDialogTitle)) {
                 tvTitle.setText(mDialogTitle);
@@ -337,9 +348,21 @@ public class SharePlatformDialog extends Dialog {
             dialogWindow.setGravity(Gravity.LEFT | Gravity.BOTTOM);
             mDialog.setContentView(view);
 
+            if (mShowImg) {
+                if (!TextUtils.isEmpty(mPicUrl)) {
+                    ImageLoader.getInstance(mActivity).displayImage(mPicUrl, ivImagePreview);
+                } else if (mBitmap != null) {
+                    ivImagePreview.setImageBitmap(mBitmap);
+                }
+                View content = view.findViewById(R.id.ll_content);
+                content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            } else {
+                ivImagePreview.setVisibility(View.GONE);
+            }
+
             // 调整dialog背景大小
             int width = mActivity.getResources().getDisplayMetrics().widthPixels;
-            container.setLayoutParams(new FrameLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
+            container.setLayoutParams(new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
 
             mDialog.mUmShareUtil = mShareUtil;
             return mDialog;
