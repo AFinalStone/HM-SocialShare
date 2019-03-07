@@ -295,6 +295,12 @@ public class SharePlatformDialog extends Dialog {
                                 MobclickAgent.onEvent(mActivity, mTraceType + "_save_click");
                             }
                             FileUtil.savePicture(mActivity, mPicUrl);
+                        } else if (PlatformEnum.EMAIL == platFormBean.getSharePlatform()) {
+                          //邮箱直接发送图片链接
+                            mShareUtil.shareText(platFormBean.getUMSharePlatform(), mText);
+                        } else if (PlatformEnum.SMS == platFormBean.getSharePlatform()) {
+                            //短信直接发送图片链接
+                            mShareUtil.shareText(platFormBean.getUMSharePlatform(), mText);
                         } else {
                             mShareUtil.sharePicture(platFormBean.getUMSharePlatform(), mPicUrl);
                         }
