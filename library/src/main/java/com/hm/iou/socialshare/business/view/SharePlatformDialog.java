@@ -356,6 +356,12 @@ public class SharePlatformDialog extends Dialog {
                 }
                 View content = view.findViewById(R.id.ll_content);
                 content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                    }
+                });
             } else {
                 ivImagePreview.setVisibility(View.GONE);
             }
