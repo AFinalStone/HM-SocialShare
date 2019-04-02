@@ -60,9 +60,10 @@ public class SocialShareAppLike {
             }
             qqSecret = data.getString("TENCENT_QQ_SECRET");
             weiboId = data.getString("WEIBO_ID");
-            if (TextUtils.isEmpty(weiboId)) {
-                weiboId = data.getInt("WEIBO_ID") + "";
+            if (weiboId != null) {
+                weiboId = weiboId.replace("weibo", "");
             }
+
             weiboSecret = data.getString("WEIBO_SECRET");
             weiboCallback = data.getString("WEIBO_CALLBACK_URL");
         } catch (Exception e) {
