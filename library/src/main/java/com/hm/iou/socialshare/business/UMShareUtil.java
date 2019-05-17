@@ -71,7 +71,7 @@ public class UMShareUtil {
         }
 
         //QQ分享需要读写SD卡权限
-        if (shareMedia == SHARE_MEDIA.QQ) {
+        if (shareMedia == SHARE_MEDIA.QQ|| shareMedia == SHARE_MEDIA.SMS) {
             RxPermissions rxPermissions = new RxPermissions(mActivity);
             rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
                 @Override
@@ -136,7 +136,7 @@ public class UMShareUtil {
         }
 
         //QQ分享需要读写SD卡权限
-        if (shareMedia == SHARE_MEDIA.QQ) {
+        if (shareMedia == SHARE_MEDIA.QQ || shareMedia == SHARE_MEDIA.SMS) {
             RxPermissions rxPermissions = new RxPermissions(mActivity);
             rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
                 @Override
@@ -199,7 +199,7 @@ public class UMShareUtil {
         if (!TextUtils.isEmpty(urlDesc)) {
             web.setDescription(urlDesc);
         }
-        if (shareMedia == SHARE_MEDIA.QQ) {
+        if (shareMedia == SHARE_MEDIA.QQ || shareMedia == SHARE_MEDIA.SMS) {
             RxPermissions rxPermissions = new RxPermissions(mActivity);
             rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
                 @Override
@@ -223,7 +223,7 @@ public class UMShareUtil {
      * @param shareMedia
      * @param shareText  分享内容
      */
-    public void shareText(SHARE_MEDIA shareMedia, String shareText) {
+    public void shareText(final SHARE_MEDIA shareMedia, final String shareText) {
         if (mActivity == null)
             return;
         if (!checkShareChannel(mApplicationContext, shareMedia)) {
@@ -235,6 +235,22 @@ public class UMShareUtil {
             SocialShareUtil.sendMsgToQQ(mActivity, shareText);
             return;
         }
+        //如果是短信分享，为了房主原生SDK的File的空指针异常，这里需要获取一下外部存储卡权限
+        if (shareMedia == SHARE_MEDIA.SMS) {
+            RxPermissions rxPermissions = new RxPermissions(mActivity);
+            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean aBoolean) throws Exception {
+                    if (aBoolean) {
+                        new ShareAction(mActivity).withText(shareText).setPlatform(shareMedia).setCallback(mUMShareListener).share();
+                    } else {
+                        Toast.makeText(mActivity, "分享失败，请开启读写手机存储权限", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            return;
+        }
+
         new ShareAction(mActivity).withText(shareText).setPlatform(shareMedia).setCallback(mUMShareListener).share();
     }
 

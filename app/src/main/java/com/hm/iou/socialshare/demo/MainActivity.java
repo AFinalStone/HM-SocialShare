@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 listData.add(new PlatFormBean(PlatformEnum.WEIXIN));
                 listData.add(new PlatFormBean(PlatformEnum.WEIXIN_CIRCLE));
                 listData.add(new PlatFormBean(PlatformEnum.WEIBO));
+                listData.add(new PlatFormBean(PlatformEnum.SMS));
                 new SharePlatformDialog
                         .Builder(MainActivity.this)
                         .setPicUrl("https://upload-images.jianshu.io/upload_images/972352-9911637db5512613.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700")
