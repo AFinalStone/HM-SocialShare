@@ -71,7 +71,7 @@ public class UMShareUtil {
         }
 
         //QQ分享需要读写SD卡权限
-        if (shareMedia == SHARE_MEDIA.QQ|| shareMedia == SHARE_MEDIA.SMS) {
+        if (shareMedia == SHARE_MEDIA.QQ || shareMedia == SHARE_MEDIA.SMS) {
             RxPermissions rxPermissions = new RxPermissions(mActivity);
             rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
                 @Override
@@ -233,21 +233,6 @@ public class UMShareUtil {
         if (SHARE_MEDIA.QQ == shareMedia) {
             //QQ不支持分享文字
             SocialShareUtil.sendMsgToQQ(mActivity, shareText);
-            return;
-        }
-        //如果是短信分享，为了房主原生SDK的File的空指针异常，这里需要获取一下外部存储卡权限
-        if (shareMedia == SHARE_MEDIA.SMS) {
-            RxPermissions rxPermissions = new RxPermissions(mActivity);
-            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                @Override
-                public void accept(Boolean aBoolean) throws Exception {
-                    if (aBoolean) {
-                        new ShareAction(mActivity).withText(shareText).setPlatform(shareMedia).setCallback(mUMShareListener).share();
-                    } else {
-                        Toast.makeText(mActivity, "分享失败，请开启读写手机存储权限", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
             return;
         }
 
