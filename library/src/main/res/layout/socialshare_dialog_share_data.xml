@@ -34,8 +34,12 @@
             android:paddingBottom="20dip"
             android:paddingTop="15dip"
             android:text="分享到"
-            android:textColor="@color/uikit_text_main_content"
-            android:textSize="@dimen/uikit_sub_title_text_size" />
+            android:textColor="@color/uikit_text_sub_content"
+            android:textSize="14dip" />
+
+        <View
+            style="@style/UikitDivider.Horizontal"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rl_platform"
