@@ -26,6 +26,8 @@ public class SocialShareUtil {
     public static final String PACKAGE_OF_WEIBO = "com.sina.weibo";
     public static final String ACTIVITY_OF_QQ = "com.tencent.mobileqq.activity.SplashActivity";
 
+    public static final String QQ_JUMP_ACTIVITY = "com.tencent.mobileqq.activity.JumpActivity";
+
     public static void toastMsg(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
@@ -65,13 +67,16 @@ public class SocialShareUtil {
 
         if (isAppInstalled(context, PACKAGE_OF_QQ)) {
             try {
-                ComponentName component = new ComponentName(PACKAGE_OF_QQ, ACTIVITY_OF_QQ);
-                Intent intent = new Intent();
+                ComponentName component = new ComponentName(PACKAGE_OF_QQ, QQ_JUMP_ACTIVITY);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, textMsg);
                 intent.setComponent(component);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();
+                toastMsg(context, "该平台不支持纯文本分享");
             }
         } else {
             String msg = context.getString(R.string.shareData_notInstallQQ);
