@@ -46,6 +46,8 @@ dependencies {
     compile 'com.heima.iou:hmtoolslocal:1.0.0'
 
     compile 'com.heima.iou:hmrxpermissionlocal:1.0.0'
+    compile 'com.heima.iou:hmrouterlocal:1.0.0'
+
 
 }
 apply from: './maven_local.gradle'
