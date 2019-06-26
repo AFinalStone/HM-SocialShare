@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.socialshare.R;
 import com.hm.iou.socialshare.api.ShareApi;
@@ -360,6 +361,19 @@ public class SharePlatformDialog extends Dialog {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
+                    }
+                });
+
+
+                view.findViewById(R.id.view_dialog_home_divider).setVisibility(View.VISIBLE);
+                TextView tvHome = view.findViewById(R.id.tv_dialog_home);
+                tvHome.setVisibility(View.VISIBLE);
+                tvHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/main/index")
+                                .navigation(mActivity);
                     }
                 });
             } else {

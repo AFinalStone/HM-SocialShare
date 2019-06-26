@@ -46,7 +46,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
-            android:paddingBottom="30dip" />
+            android:paddingBottom="20dip" />
+
+        <View
+            android:id="@+id/view_dialog_home_divider"
+            style="@style/UikitDivider.Horizontal"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/tv_dialog_home"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:layout_gravity="center_horizontal"
+            android:text="回到首页"
+            android:textColor="@color/uikit_text_sub_content"
+            android:textSize="14dip"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 
