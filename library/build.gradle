@@ -37,8 +37,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //友盟sdk
-    compile 'com.umeng.sdk:common:latest.integration'
-    compile 'com.umeng.sdk:analytics:latest.integration'
+    compile  'com.umeng.umsdk:analytics:8.1.1'
+    compile  'com.umeng.umsdk:common:2.1.0'
 
     compile 'com.heima.iou:hmuikitlocal:1.0.0'
     compile 'com.heima.iou:hmnetworklocal:1.0.0'
