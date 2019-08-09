@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 new SharePlatformDialog
                         .Builder(MainActivity.this)
                         .setPicUrl("https://upload-images.jianshu.io/upload_images/972352-9911637db5512613.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700")
+                        .setShowImage(true)
                         .setPlatforms(listData)
                         .show();
             }
