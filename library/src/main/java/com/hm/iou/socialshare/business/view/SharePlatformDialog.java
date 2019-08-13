@@ -75,6 +75,7 @@ public class SharePlatformDialog extends Dialog {
         private String mPicUrl;             //图片分享
         private Bitmap mBitmap;             //图片分享
         private boolean mShowImg;           //是否显示图片预览
+        private boolean mIfHideGoHome;      //是否隐藏底部的返回首页
 
         private String mWebUrl;             //链接分享
         private String mWebUrlTitle;
@@ -153,6 +154,11 @@ public class SharePlatformDialog extends Dialog {
             return this;
         }
 
+        public Builder setIfHideGoHome(boolean hide) {
+            this.mIfHideGoHome = hide;
+            return this;
+        }
+
         /**
          * 设置分享链接url地址
          *
@@ -216,7 +222,7 @@ public class SharePlatformDialog extends Dialog {
             View view = LayoutInflater.from(mActivity).inflate(R.layout.socialshare_dialog_share_data, null);
             ImageView ivImagePreview = view.findViewById(R.id.iv_dialog_preview);
 
-            final TextView tvTitle= view.findViewById(R.id.tv_dialog_title);
+            final TextView tvTitle = view.findViewById(R.id.tv_dialog_title);
             if (!TextUtils.isEmpty(mDialogTitle)) {
                 tvTitle.setText(mDialogTitle);
             }
@@ -364,18 +370,20 @@ public class SharePlatformDialog extends Dialog {
                     }
                 });
 
+                if (!mIfHideGoHome) {
+                    view.findViewById(R.id.view_dialog_home_divider).setVisibility(View.VISIBLE);
+                    TextView tvHome = view.findViewById(R.id.tv_dialog_home);
+                    tvHome.setVisibility(View.VISIBLE);
+                    tvHome.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/main/index")
+                                    .navigation(mActivity);
+                        }
+                    });
+                }
 
-                view.findViewById(R.id.view_dialog_home_divider).setVisibility(View.VISIBLE);
-                TextView tvHome = view.findViewById(R.id.tv_dialog_home);
-                tvHome.setVisibility(View.VISIBLE);
-                tvHome.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/main/index")
-                                .navigation(mActivity);
-                    }
-                });
             } else {
                 ivImagePreview.setVisibility(View.GONE);
             }
