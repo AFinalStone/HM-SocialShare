@@ -371,7 +371,6 @@ public class SharePlatformDialog extends Dialog {
                 });
 
                 if (!mIfHideGoHome) {
-                    view.findViewById(R.id.view_dialog_home_divider).setVisibility(View.VISIBLE);
                     TextView tvHome = view.findViewById(R.id.tv_dialog_home);
                     tvHome.setVisibility(View.VISIBLE);
                     tvHome.setOnClickListener(new View.OnClickListener() {
