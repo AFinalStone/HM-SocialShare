@@ -75,6 +75,8 @@ public class SharePlatformDialog extends Dialog {
         private String mPicUrl;             //图片分享
         private Bitmap mBitmap;             //图片分享
         private boolean mShowImg;           //是否显示图片预览
+        //只有借条分享，上面显示图片时，下面才会显示"返回首页"，用"mShowImg"字段来区分
+        @Deprecated
         private boolean mIfHideGoHome;      //是否隐藏底部的返回首页
 
         private String mWebUrl;             //链接分享
@@ -154,6 +156,7 @@ public class SharePlatformDialog extends Dialog {
             return this;
         }
 
+        @Deprecated
         public Builder setIfHideGoHome(boolean hide) {
             this.mIfHideGoHome = hide;
             return this;
@@ -370,18 +373,16 @@ public class SharePlatformDialog extends Dialog {
                     }
                 });
 
-                if (!mIfHideGoHome) {
-                    TextView tvHome = view.findViewById(R.id.tv_dialog_home);
-                    tvHome.setVisibility(View.VISIBLE);
-                    tvHome.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialog.dismiss();
-                            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/main/index")
-                                    .navigation(mActivity);
-                        }
-                    });
-                }
+                TextView tvHome = view.findViewById(R.id.tv_dialog_home);
+                tvHome.setVisibility(View.VISIBLE);
+                tvHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/main/index")
+                                .navigation(mActivity);
+                    }
+                });
 
             } else {
                 ivImagePreview.setVisibility(View.GONE);

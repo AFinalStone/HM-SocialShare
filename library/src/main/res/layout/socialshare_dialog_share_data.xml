@@ -55,7 +55,7 @@
             android:background="@drawable/socialshare_dialog_bottom_back_home_btn"
             android:gravity="center"
             android:text="邀请完，点此退回【首页】"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
