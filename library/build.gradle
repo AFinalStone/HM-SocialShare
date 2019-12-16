@@ -36,16 +36,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //友盟sdk
-    api 'com.umeng.umsdk:analytics:8.1.1'
-    api 'com.umeng.umsdk:common:2.1.0'
+    implementation 'com.umeng.umsdk:analytics:8.1.1'
+    implementation 'com.umeng.umsdk:common:2.1.0'
 
-    api 'com.heima.iou:hmuikitlocal:1.0.0'
-    api 'com.heima.iou:hmnetworklocal:1.0.0'
-    api 'com.heima.iou:hmsharedatalocal:1.0.0'
-    api 'com.heima.iou:hmtoolslocal:1.0.0'
+    implementation 'com.heima.iou:hmuikitlocal:1.0.0'
+    implementation 'com.heima.iou:hmnetworklocal:1.0.0'
+    implementation 'com.heima.iou:hmsharedatalocal:1.0.0'
+    implementation 'com.heima.iou:hmtoolslocal:1.0.0'
 
-    api 'com.heima.iou:hmrxpermissionlocal:1.0.0'
-    api 'com.heima.iou:hmrouterlocal:1.0.0'
+    implementation 'com.heima.iou:hmrxpermissionlocal:1.0.0'
+    implementation 'com.heima.iou:hmrouterlocal:1.0.0'
 
 }
 apply from: './maven_local.gradle'
